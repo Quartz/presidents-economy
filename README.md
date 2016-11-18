@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-To update the data:
+To update the data from [the spreadsheet](https://docs.google.com/spreadsheets/d/1tVRmfLX6QzoctATHbTRJhjb5KMNJUcB4vM-Wj28SCNk/edit#gid=0):
 
 ```
 python update.py
