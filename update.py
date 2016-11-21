@@ -36,14 +36,11 @@ def main():
                 'value': float(row['value'])
             })
 
-        output[metric['slug']] = {
-            'metric': metric['metric'],
-            'frequency': metric['frequency'],
-            'source': metric['source'],
-            'source_url': metric['url'],
-            'last_updated': metric['last_updated'],
-            'data': data
-        }
+        metric['data'] = data
+        metric['min'] = float(metric['min'])
+        metric['max'] = float(metric['max'])
+
+        output[metric['slug']] = metric
 
     with open('src/data/metrics.json', 'w') as f:
         json.dump(output, f)
