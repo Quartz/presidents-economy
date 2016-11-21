@@ -31,7 +31,10 @@ def main():
             if int(row['period'][:4]) < FIRST_YEAR:
                 continue
 
-            data.append(row)
+            data.append({
+                'period': row['period'],
+                'value': float(row['value'])
+            })
 
         output[metric['slug']] = {
             'metric': metric['metric'],
