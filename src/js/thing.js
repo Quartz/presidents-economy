@@ -25,6 +25,20 @@ var DISPLAY_ORDER = [
 	'debt'
 ]
 
+var TERMS = [{
+	'president': 'Bush',
+	'start': new Date(2000, 1, 1),
+	'end': new Date(2008, 12, 31)
+}, {
+	'president': 'Obama',
+	'start': new Date(2009, 1, 1),
+	'end': new Date(2016, 12, 31)
+}, {
+	'president': 'Trump',
+	'start': new Date(2017, 1, 1),
+	'end': new Date(2020, 12, 31)
+}];
+
 var graphicData = null;
 var isMobile = false;
 
@@ -160,6 +174,16 @@ function renderGraphic(config) {
 		.range([chartHeight, 0])
 		.domain([ config['data']['min'], config['data']['max'] ]);
 
+	// Shading
+	_.forEach(TERMS, function(term) {
+		chartElement.append('rect')
+			.attr('class', 'president ' + utils.classify(term['president']))
+			.attr('x', xScale(term['start']))
+			.attr('width', xScale(term['end']) - xScale(term['start']))
+			.attr('y', 0)
+			.attr('height', chartHeight);
+	})
+
 	// Create axes
 	var xAxis = d3.svg.axis()
 		.scale(xScale)
@@ -201,28 +225,6 @@ function renderGraphic(config) {
 			.tickSize(-chartWidth, 0)
 			.tickFormat('')
 		);
-
-	// Shading
-	chartElement.append('rect')
-		.attr('class', 'president bush')
-		.attr('x', xScale(new Date(2000, 1, 1)))
-		.attr('width', xScale(new Date(2008, 12, 31)))
-		.attr('y', 0)
-		.attr('height', chartHeight);
-
-	chartElement.append('rect')
-		.attr('class', 'president obama')
-		.attr('x', xScale(new Date(2009, 1, 1)))
-		.attr('width', xScale(new Date(2016, 12, 31)))
-		.attr('y', 0)
-		.attr('height', chartHeight);
-
-	chartElement.append('rect')
-		.attr('class', 'president trump')
-		.attr('x', xScale(new Date(2017, 1, 1)))
-		.attr('width', xScale(new Date(2020, 12, 31)))
-		.attr('y', 0)
-		.attr('height', chartHeight);
 
 	// Render lines
 	var line = d3.svg.line()
