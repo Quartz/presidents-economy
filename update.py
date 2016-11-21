@@ -31,12 +31,16 @@ def main():
             if int(row['period'][:4]) < FIRST_YEAR:
                 continue
 
-            data.append([
-                row['period'],
-                float(row['value'])
-            ])
+            data.append(row)
 
-        output[metric['slug']] = data
+        output[metric['slug']] = {
+            'metric': metric['metric'],
+            'frequency': metric['frequency'],
+            'source': metric['source'],
+            'source_url': metric['url'],
+            'last_updated': metric['last_updated'],
+            'data': data
+        }
 
     with open('src/data/metrics.json', 'w') as f:
         json.dump(output, f)

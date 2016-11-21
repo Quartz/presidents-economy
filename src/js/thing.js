@@ -1,6 +1,7 @@
 // NPM modules
 var d3 = require('d3');
 var request = require('d3-request');
+var _ = require('lodash');
 
 // Local modules
 var features = require('./detectFeatures')();
@@ -20,9 +21,10 @@ var isMobile = false;
  * Fetch data, format data, cache HTML references, etc.
  */
 function init() {
-	request.csv('data/graphic.csv', function(error, data) {
+	request.json('data/metrics.json', function(error, data) {
 		graphicData = formatData(data);
 
+		makeHTML();
 		render();
 		$(window).resize(utils.throttle(onResize, 250));
 	});
@@ -32,11 +34,40 @@ function init() {
  * Format data or generate any derived variables.
  */
 function formatData(data) {
-	data.forEach(function(d) {
-		d['date'] = d3.time.format('%Y').parse(d['year']);
+	_.forIn(data, function(value, key) {
+		var date_format = d3.time.format('%Y-%m-%d');
+
+		if (value['frequency'] == 'Annual') {
+			date_format = d3.time.format('%Y');
+		} else if (value['frequency'] == 'Monthly') {
+			date_format = d3.time.format('%Y-%m');
+		}
+
+		_.forEach(value['data'], function(d) {
+			d['date'] = date_format.parse(d['period']);
+		});
 	});
 
 	return data;
+}
+
+/**
+ * Create DOM elements for charts.
+ */
+function makeHTML() {
+	var container = d3.select('#charts');
+
+	_.forIn(graphicData, function(value, key) {
+		var wrapper = container.append('div')
+			.attr('id', key)
+			.attr('class', 'chart-wrapper');
+
+		wrapper.append('h2')
+			.text(value['metric']);
+
+		wrapper.append('div')
+			.attr('class', 'chart');
+	});
 }
 
 /**
@@ -58,10 +89,12 @@ function render() {
 		isMobile = false;
 	}
 
-	renderGraphic({
-		container: '#graphic',
-		width: width,
-		data: graphicData
+	_.forIn(graphicData, function(value, key) {
+		renderGraphic({
+			container: '#' + key + ' .chart',
+			width: width,
+			data: graphicData[key]['data']
+		});
 	});
 
 	// Inform parent frame of new height
@@ -73,7 +106,7 @@ function render() {
  */
 function renderGraphic(config) {
 	// Configuration
-	var aspectRatio = 3 / 2;
+	var aspectRatio = 5 / 1;
 
 	var margins = {
 		top: 10,
@@ -112,7 +145,9 @@ function renderGraphic(config) {
 
 	var yScale = d3.scale.linear()
 		.range([chartHeight, 0])
-		.domain([0, 10]);
+		.domain(d3.extent(config['data'], function(d) {
+			return d['value'];
+		}));
 
 	// Create axes
 	var xAxis = d3.svg.axis()
