@@ -94,6 +94,9 @@ function makeHTML() {
 		wrapper.append('h2')
 			.text(data['metric']);
 
+		wrapper.append('p')
+			.html(data['description']);
+
 		wrapper.append('div')
 			.attr('class', 'chart');
 	});
@@ -191,7 +194,22 @@ function renderGraphic(config) {
 
 	var yAxis = d3.svg.axis()
 		.scale(yScale)
-		.orient('left');
+		.orient('left')
+
+	if (config['data']['ticks']) {
+		yAxis.tickValues(config['data']['ticks'])
+			.tickFormat(function(d) {
+				if (d <= 0) {
+					return d;
+				}
+
+				if (config['data']['show_plus']) {
+					return '+' + d;
+				}
+
+				return d;
+			});
+	}
 
 	// Render axes
 	var xAxisElement = chartElement.append('g')
@@ -211,7 +229,7 @@ function renderGraphic(config) {
 	xAxisElement.append('g')
 		.attr('class', 'x grid')
 		.call(xAxisGrid()
-			.tickSize(chartHeight, 0)
+			.tickSize(-chartHeight, 0)
 			.tickFormat('')
 		);
 
@@ -242,6 +260,22 @@ function renderGraphic(config) {
 		.attr('d', function(d) {
 			return line(config['data']['data']);
 		});
+
+	// Label
+	var bubble = chartElement.append('rect')
+		.attr('class', 'label-bubble')
+		.attr('x', xScale(MIN_DATE) - 9)
+		.attr('y', -10)
+		.attr('height', 20);
+
+	var label = chartElement.append('text')
+		.attr('class', 'label')
+		.attr('x', xScale(MIN_DATE) - 9)
+		.attr('y', yScale(config['data']['ticks'][config['data']['ticks'].length - 1]))
+		.attr('dy', '.32em')
+		.text(config['data']['label']);
+
+	bubble.attr('width', label[0][0].getComputedTextLength() + 10)
 }
 
 // Bind on-load handler

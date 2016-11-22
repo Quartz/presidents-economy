@@ -1,20 +1,31 @@
 @import 'qz/chart-elements'
 
+.item-body h2
+	margin-bottom 0
 
 .president
 	&.bush
-		fill #c00
+		fill #ecc
 		opacity 0.5
 
 	&.obama
-		fill #00c
+		fill #cce
 		opacity 0.5
 
 	&.trump
-		fill #c00
+		fill #ecc
 		opacity 0.5
 
+.label-bubble
+	fill $qz-background-gray
+
+.label
+	font-family $qz-sans-light
+	fill $qz-chart-axis-text
+	shape-rendering crispEdges
+	// alignment-baseline middle
+
 .lines path
-	stroke: $qz-gray-1
+	stroke: $qz-purp-4
 	stroke-width: 3px
 	fill: none

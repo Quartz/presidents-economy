@@ -39,6 +39,8 @@ def main():
         metric['data'] = data
         metric['min'] = float(metric['min'])
         metric['max'] = float(metric['max'])
+        metric['ticks'] = [float(d.strip()) for d in metric['ticks'].split(';')] if metric['ticks'] else None
+        metric['show_plus'] = (metric['show_plus'] == 'TRUE')
 
         output[metric['slug']] = metric
 
