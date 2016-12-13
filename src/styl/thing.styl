@@ -1,20 +1,29 @@
 @import 'qz/chart-elements'
 
-.item-body h2
-	margin-bottom 0
+$RED = #ecc
+$BLUE = #cce
+
+.item-body
+	h2
+		margin-bottom 0 !important
+
+	p
+		padding-top 10px !important
 
 .president
+	opacity 0.5
+
+	&.clinton
+		fill $BLUE
+
 	&.bush
 		fill #ecc
-		opacity 0.5
 
 	&.obama
-		fill #cce
-		opacity 0.5
+		fill $BLUE
 
 	&.trump
-		fill #ecc
-		opacity 0.5
+		fill $RED
 
 .label-bubble
 	fill $qz-background-gray
@@ -29,3 +38,19 @@
 	stroke: $qz-purp-4
 	stroke-width: 3px
 	fill: none
+
+.source
+	font-family $qz-sans
+	color $qz-gray-2
+	font-size 14px
+	padding-right: 20px
+	text-align: right
+	padding-bottom: 20px
+
+@media screen and (max-width 600px)
+	.item-body
+		h2
+			margin-bottom 0 !important
+
+		p
+			padding-top 10px !important

@@ -13,6 +13,14 @@ var DEFAULT_WIDTH = 940;
 var MOBILE_BREAKPOINT = 600;
 var MIN_DATE = new Date(2000, 1, 1);
 var MAX_DATE = new Date(2021, 1, 1);
+var TICK_VALUES = [
+	MIN_DATE,
+	new Date(2004, 1, 1),
+	new Date(2008, 1, 1),
+	new Date(2012, 1, 1),
+	new Date(2016, 1, 1),
+	new Date(2020, 1, 1)
+];
 var DISPLAY_ORDER = [
 	'gdp',
 	'unemployment',
@@ -26,8 +34,12 @@ var DISPLAY_ORDER = [
 ]
 
 var TERMS = [{
-	'president': 'Bush',
+	'president': 'Clinton',
 	'start': new Date(2000, 1, 1),
+	'end': new Date(2000, 12, 31)
+}, {
+	'president': 'Bush',
+	'start': new Date(2001, 1, 1),
 	'end': new Date(2008, 12, 31)
 }, {
 	'president': 'Obama',
@@ -99,6 +111,10 @@ function makeHTML() {
 
 		wrapper.append('div')
 			.attr('class', 'chart');
+
+		wrapper.append('div')
+			.attr('class', 'source')
+			.html('Data: <a href="' + data['url'] + '">' + data['source'] + '</a>.&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated']);
 	});
 }
 
@@ -138,12 +154,12 @@ function render() {
  */
 function renderGraphic(config) {
 	// Configuration
-	var aspectRatio = 5 / 1;
+	var aspectRatio = isMobile ? 2.5 / 1 : 5 / 1;
 
 	var margins = {
 		top: 10,
 		right: 20,
-		bottom: 50,
+		bottom: 30,
 		left: 50
 	};
 
@@ -190,14 +206,28 @@ function renderGraphic(config) {
 	// Create axes
 	var xAxis = d3.svg.axis()
 		.scale(xScale)
-		.orient('bottom');
+		.orient('bottom')
+		.tickValues(TICK_VALUES)
+		.tickFormat(function(d) {
+			return d.getFullYear();
+		});
 
 	var yAxis = d3.svg.axis()
 		.scale(yScale)
-		.orient('left')
+		.orient('left');
 
 	if (config['data']['ticks']) {
-		yAxis.tickValues(config['data']['ticks'])
+		var tickValues = config['data']['ticks'];
+
+		if (isMobile) {
+			tickValues = [
+				tickValues[0],
+				tickValues[2],
+				tickValues[4]
+			];
+		}
+
+		yAxis.tickValues(tickValues)
 			.tickFormat(function(d) {
 				if (d <= 0) {
 					return d;
