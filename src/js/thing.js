@@ -51,6 +51,30 @@ var TERMS = [{
 	'end': new Date(2020, 12, 31)
 }];
 
+var PRESIDENTS = [{
+	'name': 'Bush',
+	'date': new Date(2005, 1, 1)
+}, {
+	'name': 'Obama',
+	'date': new Date(2013, 1, 1)
+}, {
+	'name': 'Trump',
+	'date': new Date(2019, 1, 1)
+}];
+
+var RECESSIONS = [{
+	'start': new Date(2001, 1, 1),
+	'end': new Date(2001, 12, 31)
+}, {
+	'start': new Date(2007, 10, 1),
+	'end': new Date(2009, 6, 30)
+}];
+
+var RECESSION_LABELS = [
+	new Date(2001, 7, 1),
+	new Date(2008, 8, 1)
+];
+
 var graphicData = null;
 var isMobile = false;
 
@@ -141,7 +165,8 @@ function render() {
 		renderGraphic({
 			container: '#' + key + ' .chart',
 			width: width,
-			data: graphicData[key]
+			data: graphicData[key],
+			labelPresidents: (key == DISPLAY_ORDER[0])
 		});
 	});
 
@@ -201,6 +226,15 @@ function renderGraphic(config) {
 			.attr('width', xScale(term['end']) - xScale(term['start']))
 			.attr('y', 0)
 			.attr('height', chartHeight);
+	})
+
+	_.forEach(RECESSIONS, function(recession) {
+		chartElement.append('rect')
+			.attr('class', 'recession')
+			.attr('x', xScale(recession['start']))
+			.attr('width', xScale(recession['end']) - xScale(recession['start']))
+			.attr('y', 0)
+			.attr('height', chartHeight + 30);
 	})
 
 	// Create axes
@@ -273,6 +307,38 @@ function renderGraphic(config) {
 			.tickSize(-chartWidth, 0)
 			.tickFormat('')
 		);
+
+	// Term lines
+	_.forEach(TERMS, function(term, i) {
+		if (i == 0) {
+			return;
+		}
+
+		chartElement.append('line')
+			.attr('class', 'term-start')
+			.attr('x1', xScale(term['start']))
+			.attr('x2', xScale(term['start']))
+			.attr('y1', 0)
+			.attr('y2', chartHeight)
+	})
+
+	// President labels
+	if (config['labelPresidents']) {
+		_.forEach(PRESIDENTS, function(president, i) {
+			chartElement.append('text')
+				.attr('class', 'president-label')
+				.attr('x', xScale(president['date']))
+				.attr('y', chartHeight / 2)
+				.text(president['name']);
+		})
+
+		_.forEach(RECESSION_LABELS, function(recession, i) {
+			chartElement.append('text')
+				.attr('class', 'recession-label')
+				.attr('transform', 'translate(' + xScale(recession) + ',' + (chartHeight / 2) + ')rotate(270)')
+				.text('Recession');
+		})
+	}
 
 	// Render lines
 	var line = d3.svg.line()

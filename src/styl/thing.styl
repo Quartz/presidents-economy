@@ -25,6 +25,32 @@ $BLUE = #cce
 	&.trump
 		fill $RED
 
+.term-start
+	stroke $qz-gray-2
+	stroke-width 1px
+
+.president-label
+	font-family $qz-sans
+	fill #ccc
+	opacity 1
+	font-size 40px
+	shape-rendering crispEdges
+	alignment-baseline middle
+	text-anchor middle
+
+.recession-label
+	font-family $qz-sans
+	fill #ccc
+	opacity 1
+	font-size 40px
+	shape-rendering crispEdges
+	alignment-baseline middle
+	text-anchor middle
+
+.recession
+	color black
+	opacity 0.05
+
 .label-bubble
 	fill $qz-background-gray
 
@@ -54,3 +80,12 @@ $BLUE = #cce
 
 		p
 			padding-top 10px !important
+
+	.recession
+		display none
+
+	.recession-label
+		display: none
+
+	.president-label
+		font-size 20px
