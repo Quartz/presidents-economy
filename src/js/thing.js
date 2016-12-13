@@ -30,7 +30,8 @@ var DISPLAY_ORDER = [
 	'stocks',
 	'wages',
 	'budget',
-	'debt'
+	'debt',
+	'coal'
 ]
 
 var TERMS = [{
@@ -130,15 +131,16 @@ function makeHTML() {
 		wrapper.append('h2')
 			.text(data['metric']);
 
-		wrapper.append('p')
-			.html(data['description']);
-
 		wrapper.append('div')
 			.attr('class', 'chart');
 
 		wrapper.append('div')
 			.attr('class', 'source')
 			.html('Data: <a href="' + data['url'] + '">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
+
+		wrapper.append('div')
+			.attr('class', 'description')
+			.html(data['description']);
 	});
 }
 
@@ -182,7 +184,7 @@ function renderGraphic(config) {
 	var aspectRatio = isMobile ? 2.5 / 1 : 5 / 1;
 
 	var margins = {
-		top: 10,
+		top: 25,
 		right: 20,
 		bottom: 30,
 		left: 50
@@ -253,13 +255,13 @@ function renderGraphic(config) {
 	if (config['data']['ticks']) {
 		var tickValues = config['data']['ticks'];
 
-		if (isMobile) {
-			tickValues = [
-				tickValues[0],
-				tickValues[2],
-				tickValues[4]
-			];
-		}
+		// if (isMobile) {
+		// 	tickValues = [
+		// 		tickValues[0],
+		// 		tickValues[2],
+		// 		tickValues[4]
+		// 	];
+		// }
 
 		yAxis.tickValues(tickValues)
 			.tickFormat(function(d) {
@@ -307,6 +309,15 @@ function renderGraphic(config) {
 			.tickSize(-chartWidth, 0)
 			.tickFormat('')
 		);
+
+	if (config['data']['show_zero']) {
+		chartElement.append('line')
+			.attr('class', 'zero-line')
+			.attr('x1', xScale(MIN_DATE))
+			.attr('x2', xScale(MAX_DATE))
+			.attr('y1', yScale(0))
+			.attr('y2', yScale(0))
+	}
 
 	// Term lines
 	_.forEach(TERMS, function(term, i) {

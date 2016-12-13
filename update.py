@@ -41,6 +41,7 @@ def main():
         metric['max'] = float(metric['max'])
         metric['ticks'] = [float(d.strip()) for d in metric['ticks'].split(';')] if metric['ticks'] else None
         metric['show_plus'] = (metric['show_plus'] == 'TRUE')
+        metric['show_zero'] = (metric['show_zero'] == 'TRUE')
 
         output[metric['slug']] = metric
 
