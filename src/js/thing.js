@@ -138,7 +138,7 @@ function makeHTML() {
 
 		wrapper.append('div')
 			.attr('class', 'source')
-			.html('Data: <a href="' + data['url'] + '">' + data['source'] + '</a>.&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated']);
+			.html('Data: <a href="' + data['url'] + '">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
 	});
 }
 
