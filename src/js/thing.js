@@ -136,7 +136,7 @@ function makeHTML() {
 
 		wrapper.append('div')
 			.attr('class', 'source')
-			.html('Data: <a href="' + data['url'] + '">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
+			.html(data['frequency'] + ' data: <a href="' + data['url'] + '">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
 
 		wrapper.append('div')
 			.attr('class', 'description')
@@ -339,7 +339,7 @@ function renderGraphic(config) {
 			chartElement.append('text')
 				.attr('class', 'president-label')
 				.attr('x', xScale(president['date']))
-				.attr('y', chartHeight / 2)
+				.attr('y', chartHeight * 3 / 4)
 				.text(president['name']);
 		})
 
