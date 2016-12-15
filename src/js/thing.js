@@ -103,14 +103,14 @@ function formatData(data) {
 
 		if (value['frequency'] == 'Annual') {
 			date_format = d3.time.format('%Y');
-		} else if (value['frequency'] == 'Monthly') {
-			date_format = d3.time.format('%Y-%m');
 		}
 
 		_.forEach(value['data'], function(d) {
 			d['date'] = date_format.parse(d['period']);
 		});
 	});
+
+	console.log(data);
 
 	return data;
 }
