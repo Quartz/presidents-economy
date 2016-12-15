@@ -110,8 +110,6 @@ function formatData(data) {
 		});
 	});
 
-	console.log(data);
-
 	return data;
 }
 
