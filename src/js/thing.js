@@ -136,7 +136,7 @@ function makeHTML() {
 
 		wrapper.append('div')
 			.attr('class', 'source')
-			.html(data['frequency'] + ' data: <a href="' + data['url'] + '">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
+			.html(data['frequency'] + ' data: <a href="' + data['url'] + '" class="source-link">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
 
 		wrapper.append('div')
 			.attr('class', 'description')
@@ -378,7 +378,7 @@ function renderGraphic(config) {
 	var label = chartElement.append('text')
 		.attr('class', 'label')
 		.attr('x', xScale(MIN_DATE) - 9)
-		.attr('y', yScale(config['data']['ticks'][config['data']['ticks'].length - 1]))
+		.attr('y', yScale(config['data']['max']))
 		.attr('dy', '.32em')
 		.text(config['data']['label']);
 
