@@ -127,7 +127,7 @@ function makeHTML() {
 			.attr('class', 'chart-wrapper');
 
 		wrapper.append('div')
-			.attr('class', 'description clearfix')
+			.attr('class', 'right-column clearfix')
 			.append('h2')
 				.text(data['metric']);
 
@@ -139,7 +139,7 @@ function makeHTML() {
 			.html(data['frequency'] + ' data. <span class="source-link">&nbsp;&nbsp;&nbsp;Source: <a href="' + data['url'] + '">' + data['source'] + '</a></span>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '.</span> <span class="brand">&nbsp;&nbsp;&nbsp;Quartz | <a href="http://qz.com/">qz.com</a></span>');
 
 		wrapper.append('div')
-			.attr('class', 'description')
+			.attr('class', 'right-column clearfix')
 			.html(data['description']);
 	});
 }
