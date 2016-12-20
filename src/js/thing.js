@@ -126,8 +126,10 @@ function makeHTML() {
 			.attr('id', key)
 			.attr('class', 'chart-wrapper');
 
-		wrapper.append('h2')
-			.text(data['metric']);
+		wrapper.append('div')
+			.attr('class', 'description clearfix')
+			.append('h2')
+				.text(data['metric']);
 
 		wrapper.append('div')
 			.attr('class', 'chart');
