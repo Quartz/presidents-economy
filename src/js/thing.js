@@ -134,7 +134,7 @@ function makeHTML() {
 
 		wrapper.append('div')
 			.attr('class', 'source')
-			.html(data['frequency'] + ' data: <a href="' + data['url'] + '" class="source-link">' + data['source'] + '</a>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '</span>');
+			.html(data['frequency'] + ' data. <span class="source-link">&nbsp;&nbsp;&nbsp;Source: <a href="' + data['url'] + '">' + data['source'] + '</a></span>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '.</span> <span class="brand">&nbsp;&nbsp;&nbsp;Quartz | <a href="http://qz.com/">qz.com</a></span>');
 
 		wrapper.append('div')
 			.attr('class', 'description')
