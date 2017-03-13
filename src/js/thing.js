@@ -239,8 +239,6 @@ function renderGraphic(config) {
 			.attr('height', chartHeight + 30);
 	})
 
-	console.log(MIN_DATE);
-
 	// Create axes
 	var xAxis = d3.svg.axis()
 		.scale(xScale)
@@ -349,9 +347,6 @@ function renderGraphic(config) {
 	var line = d3.svg.line()
 		.interpolate('monotone')
 		.x(function(d,i ) {
-			if (i == 0) {
-				console.log(d['date'], xScale(d['date']))
-			}
 			return xScale(d['date']);
 		})
 		.y(function(d) {
