@@ -11,15 +11,15 @@ var utils = require('./utils');
 // Globals
 var DEFAULT_WIDTH = 940;
 var MOBILE_BREAKPOINT = 600;
-var MIN_DATE = new Date(2000, 1, 1);
-var MAX_DATE = new Date(2021, 1, 1);
+var MIN_DATE = new Date(2000, 0, 1);
+var MAX_DATE = new Date(2021, 0, 1);
 var TICK_VALUES = [
 	MIN_DATE,
-	new Date(2004, 1, 1),
-	new Date(2008, 1, 1),
-	new Date(2012, 1, 1),
-	new Date(2016, 1, 1),
-	new Date(2020, 1, 1)
+	new Date(2004, 0, 1),
+	new Date(2008, 0, 1),
+	new Date(2012, 0, 1),
+	new Date(2016, 0, 1),
+	new Date(2020, 0, 1)
 ];
 var DISPLAY_ORDER = [
 	'gdp',
@@ -36,44 +36,44 @@ var DISPLAY_ORDER = [
 
 var TERMS = [{
 	'president': 'Clinton',
-	'start': new Date(2000, 1, 1),
-	'end': new Date(2000, 12, 31)
+	'start': new Date(2000, 0, 1),
+	'end': new Date(2000, 11, 31)
 }, {
 	'president': 'Bush',
-	'start': new Date(2001, 1, 1),
-	'end': new Date(2008, 12, 31)
+	'start': new Date(2001, 0, 1),
+	'end': new Date(2008, 11, 31)
 }, {
 	'president': 'Obama',
-	'start': new Date(2009, 1, 1),
-	'end': new Date(2016, 12, 31)
+	'start': new Date(2009, 0, 1),
+	'end': new Date(2016, 11, 31)
 }, {
 	'president': 'Trump',
-	'start': new Date(2017, 1, 1),
-	'end': new Date(2020, 12, 31)
+	'start': new Date(2017, 0, 1),
+	'end': new Date(2020, 11, 31)
 }];
 
 var PRESIDENTS = [{
 	'name': 'Bush',
-	'date': new Date(2005, 1, 1)
+	'date': new Date(2005, 0, 1)
 }, {
 	'name': 'Obama',
-	'date': new Date(2013, 1, 1)
+	'date': new Date(2013, 0, 1)
 }, {
 	'name': 'Trump',
-	'date': new Date(2019, 1, 1)
+	'date': new Date(2019, 0, 1)
 }];
 
 var RECESSIONS = [{
-	'start': new Date(2001, 1, 1),
-	'end': new Date(2001, 12, 31)
+	'start': new Date(2001, 0, 1),
+	'end': new Date(2001, 11, 31)
 }, {
-	'start': new Date(2007, 10, 1),
-	'end': new Date(2009, 6, 30)
+	'start': new Date(2007, 9, 1),
+	'end': new Date(2009, 5, 30)
 }];
 
 var RECESSION_LABELS = [
-	new Date(2001, 7, 1),
-	new Date(2008, 8, 1)
+	new Date(2001, 6, 1),
+	new Date(2008, 7, 1)
 ];
 
 var graphicData = null;
@@ -239,6 +239,8 @@ function renderGraphic(config) {
 			.attr('height', chartHeight + 30);
 	})
 
+	console.log(MIN_DATE);
+
 	// Create axes
 	var xAxis = d3.svg.axis()
 		.scale(xScale)
@@ -254,14 +256,6 @@ function renderGraphic(config) {
 
 	if (config['data']['ticks']) {
 		var tickValues = config['data']['ticks'];
-
-		// if (isMobile) {
-		// 	tickValues = [
-		// 		tickValues[0],
-		// 		tickValues[2],
-		// 		tickValues[4]
-		// 	];
-		// }
 
 		yAxis.tickValues(tickValues)
 			.tickFormat(function(d) {
@@ -354,7 +348,10 @@ function renderGraphic(config) {
 	// Render lines
 	var line = d3.svg.line()
 		.interpolate('monotone')
-		.x(function(d) {
+		.x(function(d,i ) {
+			if (i == 0) {
+				console.log(d['date'], xScale(d['date']))
+			}
 			return xScale(d['date']);
 		})
 		.y(function(d) {
