@@ -12,9 +12,8 @@ FIRST_YEAR = 2000
 
 def main():
     output = {}
-
     response = requests.get(BASE_URL % '0')
-    index = list(csv.DictReader(response.content.decode('utf-8', errors='ignore').encode('ascii', 'ignore').splitlines()))
+    index = list(csv.DictReader(response.content.splitlines()))
 
     for metric in index:
         if not metric['gid']:
