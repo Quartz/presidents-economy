@@ -85,7 +85,8 @@ var isMobile = false;
  * Fetch data, format data, cache HTML references, etc.
  */
 function init() {
-	request.json('data/metrics.json', function(error, data) {
+	var timestamp = (new Date()).getTime();
+	request.json('data/metrics.json?t='+timestamp, function(error, data) {
 		graphicData = formatData(data);
 
 		makeHTML();
