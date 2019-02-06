@@ -138,7 +138,7 @@ function makeHTML() {
 
 		wrapper.append('div')
 			.attr('class', 'source')
-			.html(data['frequency'] + ' data. <span class="source-link">&nbsp;&nbsp;&nbsp;Source: <a href="' + data['url'] + '">' + data['source'] + '</a></span>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '.</span> <span class="brand">&nbsp;&nbsp;&nbsp;Quartz | <a href="https://qz.com/">qz.com</a></span>');
+			.html(data['frequency'] + ' data. <span class="source-link">&nbsp;&nbsp;&nbsp;Source: <a target="blank" href="' + data['url'] + '">' + data['source'] + '</a></span>. <span class="last-updated">&nbsp;&nbsp;&nbsp;Last updated: ' + data['last_updated'] + '.</span> <span class="brand">&nbsp;&nbsp;&nbsp;Quartz | <a href="https://qz.com/">qz.com</a></span>');
 
 		wrapper.append('div')
 			.attr('class', 'right-column clearfix')
